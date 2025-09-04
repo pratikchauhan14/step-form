@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: "Noto Sans JP", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .step-form-wrapper {
+            align-items: center;
+            background: #fff;
+            border-radius: 0 0 8px 8px;
+            height: 100%;
+            margin: 40px auto;
+            max-width: 800px;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 4px 12px 6px #00000014;
+        }
+
+        .step-form {}
+
+        .step-form .progress-bar-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .progress-bar {
+            width: 100%;
+            position: relative;
+            height: 10px;
+            background: #ff572221;
+            overflow: hidden;
+        }
+
+        .progress-bar .progress-bar-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: #FF5722;
+            transition: all 0.3s ease;
+        }
+
+        label.field-label {
+            display: block;
+            width: 100%;
+            font-size: 80%;
+            padding: 0 0 3px;
+            font-weight: 600;
+        }
+
+        .field-group {
+            display: flex;
+            flex-wrap: wrap;
+            column-gap: 20px;
+            row-gap: 5px;
+        }
+
+        .field-group .dependencies {
+            width: 100%;
+        }
+
+        .radio-option {
+            position: relative;
+        }
+
+        .radio-option input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            appearance: none;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .radio-option input+span {
+            align-items: center;
+            background: #fff;
+            border: 2px solid #ff572247;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            padding: 8px 15px;
+            position: relative;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .radio-option input:checked+span {
+            background: #FF5722 !important;
+            border-color: #FF5722 !important;
+            color: #fff !important;
+        }
+
+        div#action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: space-between;
+            padding-top: 30px;
+        }
+
+        div#action-buttons button,
+        button#prev-button-custom {
+            background: #fff;
+            border: 1px solid #FF5722;
+            color: #FF5722;
+            cursor: pointer;
+            padding: 9px 22px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .validation-error {
+            width: 100%;
+            color: red;
+        }
+
+        .progress-bar-label {
+            display: none;
+        }
+
+        div#action-buttons button.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        h2 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .step-fields {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        body {
+            font-size: 16px;
+        }
+
+        .step-header {
+            padding: 0 0 20px;
+        }
+
+        div#action-buttons button:hover,
+        button#prev-button-custom:hover {
+            background: #FF5722;
+            color: #fff;
+        }
+
+        .radio-option input:hover+span {
+            background: #ff572240;
+            border-color: #FF5722;
+        }
+
+        .step-fields input[type="text"],
+        .step-fields input[type="email"],
+        .step-fields input[type="tel"] {
+            background-color: #fff;
+            border: 1px solid #c0c0c0;
+            border-radius: 4px;
+            color: #000;
+            outline: none;
+            padding: 10px 18px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+
+        .huspot-form {
+            position: relative;
+        }
+
+        .huspot-form .field-group {
+            gap: 21px;
+        }
+
+        .step-fields input[type="text"]:focus,
+        .step-fields input[type="email"]:focus,
+        .step-fields input[type="tel"]:focus {
+            border-color: #FF5722;
+            box-shadow: 0 0 2px #FF5722;
+        }
+
+        button#prev-button-custom {
+            position: absolute;
+            bottom: -69px;
+            z-index: 1;
+            right: 0;
+        }
+
+        .thank-you-message {
+            text-align: center;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div class="thank-you-message" style="display: none;">
+        <h2>Thank You</h2>
+        <p>Thank You for your submission. We will get back to you shortly.</p>
+    </div>
+    <div class="huspot-form" style="display: none;">
+        <form>
+            <div class="field-group">
+                <input type="text" placeholder="Name">
+                <input type="email" placeholder="Email">
+                <input type="tel" placeholder="Phone">
+            </div>
+            <button type="submit" id="prev-button-custom">Submit</button>
+        </form>
+
+
+
+    </div>
+    <div class="step-form-wrapper">
+        <div class="step-form"></div>
+    </div>
+
+    <script src="./bundle.js"></script>
+
+    <script>
+
+
+
+        const FORM_DATA = [
+            {
+                id: "step_1",
+                title: "Contact & Support",
+                description: "",
+                navigation: {
+                    next: true,
+                    prev: false
+                },
+                next: [
+                    { value: ["private", "business"], next: "step_2", key: "customer_type" },
+                    { value: "new", next: "hs_form", key: "customer_type" }
+                ],
+                fields: [
+                    {
+                        id: "customer_type", type: "radio", label: "Customer Type", required: true, value: "",
+                        isdepending: true,
+                        options: [
+                            { id: "private", label: "Private Customer" },
+                            { id: "business", label: "Business Customer" },
+                            { id: "new", label: "New Customer" }
+                        ],
+                    },
+                    {
+                        id: "customer_name_private", type: "text", depending: "customer_type", label: "Customer Name", required: true, value: "",
+                        dependencies: {
+                            "private": {
+                                type: "text", id: "customer_name_private", label: "Customer Name", required: true, value: "", placeholder: "Private Customer Name",
+                                if: { value: "private" }
+                            },
+                            "business": {
+                                type: "text", id: "customer_name_business", label: "Customer Name", required: true, value: "", placeholder: "Business Customer Name",
+                                if: { value: "business" }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                id: "step_2",
+                title: "Category (Level 1)",
+                description: "",
+                next: [
+                    { value: "Technical Issues", next: "step_3", key: "category_1" },
+                    { value: "General Inquiries / Contract Changes", next: "step_4", key: "category_1" }
+                ],
+                fields: [
+                    {
+                        id: "category_1", type: "radio", label: "Category 1", required: true, value: "",
+                        options: [
+                            { id: "Technical Issues", label: "Technical Issues" },
+                            { id: "General Inquiries / Contract Changes", label: "General Inquiries / Contract Changes" },
+                        ],
+                    },
+                ]
+            },
+            {
+                id: "step_3",
+                title: "Select Location",
+                description: "Choose your country and state",
+                next: [
+                    { value: "any", next: "hs_form" }
+                ],
+                fields: [
+                    {
+                        id: "country", type: "radio", label: "Country", required: true, value: "",
+                        isdepending: true,
+                        options: [
+                            { id: "usa", label: "United States" },
+                            { id: "india", label: "India" }
+                        ],
+                    },
+                    {
+                        id: "state", type: "radio", label: "State", required: true, value: "",
+                        depending: "country",
+                        dependencies: {
+                            "usa": {
+                                type: "radio", id: "usa_states", label: "Select State (USA)", required: true, value: "",
+                                options: [
+                                    { id: "california", label: "California", internal_value: "USA > California" },
+                                    { id: "new_york", label: "New York", internal_value: "USA > New York" },
+                                    { id: "texas", label: "Texas", internal_value: "USA > Texas" }
+                                ]
+                            },
+                            "india": {
+                                type: "radio", id: "india_states", label: "Select State (India)", required: true, value: "",
+                                options: [
+                                    { id: "maharashtra", label: "Maharashtra", internal_value: "India > Maharashtra" },
+                                    { id: "karnataka", label: "Karnataka", internal_value: "India > Karnataka" },
+                                    { id: "delhi", label: "Delhi", internal_value: "India > Delhi" }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                id: "step_4",
+                title: "Topic (Level 2)",
+                description: "Topic (Level 2) Description",
+                next: [
+                    { value: "any", next: "hs_form" }
+                ],
+                fields: [
+                    {
+                        id: "topic_category", type: "radio", label: "Choose a Topic", required: true, value: "",
+                        isdepending: true,
+                        options: [
+                            { id: "billing", label: "Billing" },
+                            { id: "technical", label: "Technical" },
+                            { id: "account", label: "Account" },
+                            { id: "general", label: "General" }
+                        ],
+                    },
+                    {
+                        id: "topic_detail", type: "radio", label: "Topic Details", required: true, value: "",
+                        depending: "topic_category",
+                        dependencies: {
+                            "billing": {
+                                type: "radio", id: "billing_details", label: "Billing Details", required: true, value: "",
+                                options: [
+                                    { id: "invoice", label: "Invoice Issue", internal_value: "Billing > Invoice Issue" },
+                                    { id: "refund", label: "Refund Request", internal_value: "Billing > Refund Request" },
+                                    { id: "other", label: "Other Billing Issue", internal_value: "Billing > Other" }
+                                ]
+                            },
+                            "technical": {
+                                type: "radio", id: "technical_details", label: "Technical Details", required: true, value: "",
+                                options: [
+                                    { id: "login", label: "Login Issue", internal_value: "Technical > Login Issue" },
+                                    { id: "performance", label: "Performance Issue", internal_value: "Technical > Performance Issue" },
+                                    { id: "bug", label: "Bug Report", internal_value: "Technical > Bug Report" }
+                                ]
+                            },
+                            "account": {
+                                type: "radio", id: "account_details", label: "Account Details", required: true, value: "",
+                                options: [
+                                    { id: "update", label: "Update Information", internal_value: "Account > Update Information" },
+                                    { id: "close", label: "Close Account", internal_value: "Account > Close Account" },
+                                    { id: "security", label: "Security Concern", internal_value: "Account > Security Concern" }
+                                ]
+                            },
+                            "general": {
+                                type: "radio", id: "general_details", label: "General Inquiry", required: true, value: "",
+                                options: [
+                                    { id: "feedback", label: "Feedback", internal_value: "General > Feedback" },
+                                    { id: "support", label: "Support Question", internal_value: "General > Support Question" },
+                                    { id: "other", label: "Other Inquiry", internal_value: "General > Other" }
+                                ]
+                            }
+                        },
+                    },
+                ]
+            },
+            {
+                id: "hs_form",
+                title: "HubSpot Form",
+                description: "HubSpot Form Description",
+                fields: "hubspot_form",
+                next: [
+                    { value: "any", next: "thank_you" }
+                ],
+                navigation: {
+                    next: false,
+                    prev: true
+                }
+            },
+            {
+                id: "thank_you",
+                title: "",
+                description: "",
+                fields: "thank_you",
+                navigation: {
+                    next: false,
+                    prev: false
+                }
+            }
+        ]
+
+    </script>
+    <script>
+
+        const stepForm = new StepForm({
+            data: FORM_DATA,
+            formContainer: document.querySelector('.step-form'),
+            hsFormContainer: document.querySelector('.huspot-form'),
+            thankYouMessageContainer: document.querySelector('.thank-you-message')
+        });
+
+        // form-submit-button on click
+        // document.querySelector('.form-submit-button').addEventListener('click', () => {
+        //     stepForm.thankYou();
+        // });
+
+        //form submit
+        document.querySelector('.huspot-form').addEventListener('submit', (event) => {
+            event.preventDefault();
+            stepForm.thankYou();
+        });
+
+        // form-thank-you event listener
+        document.addEventListener('form-thank-you', (event) => {
+            console.log('form-thank-you', event.detail);
+        });
+    </script>
+</body>
+
+</html>

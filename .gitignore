@@ -1,0 +1,5 @@
+# gitignore file
+node_modules
+form_script.js
+index2.html
+read-index.html
