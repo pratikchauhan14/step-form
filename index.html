@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step Form</title>
+
+
+    <style>
+       
+       .step-form-wrapper { align-items: center; background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; height: 100%; margin: 0 auto; max-width: 800px; padding: 40px; position: relative; }
+ .step-form { position: relative; padding: 0 0 40px; }
+ .step-form .progress-bar-wrapper { position: absolute; bottom: 0; left: 0; width: 100%; }
+ .progress-bar { width: 100%; position: relative; height: 10px; background: #4c30ef33; border: 1px solid #4c30ef30; border-radius: 5px; overflow: hidden; }
+ .progress-bar  .progress-bar-fill { position: absolute; top: 0; left: 0; height: 100%; background: #4c30ef; transition: all 0.3s ease; }
+ label.field-label {display: block;width: 100%;font-size: 18px;font-weight: 400;}
+ .field-group {display: flex;flex-wrap: wrap;column-gap: 20px;row-gap: 5px;}
+ .field-group .dependencies { width: 100%; }
+ .radio-option { position: relative; }
+ .radio-option input { position: absolute; top: 0; left: 0; z-index: 1; width: 100%; height: 100%; appearance: none; opacity: 0; cursor: pointer; }
+ .radio-option input + span { align-items: center; background: #fff; border: 2px solid #e2e8f0; border-radius: 6px; display: flex; justify-content: center; padding: 12px 25px; position: relative; cursor: pointer; }
+ .radio-option input:checked + span { background: #f1f5f9; border-color: #4c30ef; }
+ .step-fields input[type="text"] { background-color: #fff; border: 2px solid #e3e3e3; border-radius: 8px; color: #4c30ef; font-size: 17px; font-weight: 300; line-height: 22px; outline: none; padding: 8px; width: 100%; }
+ div#action-buttons { display: flex; flex-wrap: wrap; gap: 15px; justify-content: space-between; padding-top: 30px; }
+ div#action-buttons button { background: #fff; border: 1px solid #4c30ef; border-radius: 12px; color: #4c30ef; cursor: pointer; font-size: 20px; font-weight: 700; line-height: 28px; padding: 10px 32px; }
+ .validation-error { width: 100%; color: red; }
+ .progress-bar-label { display: none; }
+ div#action-buttons button.disabled {
+    opacity: 0.5;
+}
+.step-header h2 {
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: -.75px;
+    line-height: 45px;
+    padding-bottom: 25px !important;
+}
+
+.step-fields {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 10px;
+}
+ 
+     </style>
+
+<link rel="stylesheet" href="//143293620.fs1.hubspotusercontent-eu1.net/hubfs/143293620/hub_generated/template_assets/1/112861473731/1751542393498/template_main.min.css">
+<link rel="stylesheet" href="//143293620.fs1.hubspotusercontent-eu1.net/hubfs/143293620/hub_generated/template_assets/1/112861473735/1744243923922/template_theme-overrides.min.css">
+<link rel="stylesheet" href="//143293620.fs1.hubspotusercontent-eu1.net/hubfs/143293620/hub_generated/template_assets/1/112861309659/1749795510610/template_output.min.css">
+<link rel="stylesheet" href="https://143293620.fs1.hubspotusercontent-eu1.net/hubfs/143293620/hub_generated/module_assets/1/112861410255/1744269952846/module_menu.min.css">
+
+
+</head>
+<body>
+    <div class="thank-you-message" style="display: none;">
+        Thank You <br>
+        <a href="/">Zurück zur Startseite</a>
+    </div>
+    <div class="huspot-form" style="display: none;">HubSpot Form
+
+        <div class="form-submit-button">
+            <button type="button" id="prev-button-custom">Zurück</button>
+        </div>
+        <!-- <script charset="utf-8" type="text/javascript" src="//js-eu1.hsforms.net/forms/embed/v2.js"></script>
+            <script>
+                hbspt.forms.create({
+                    portalId: "143293620",
+                    formId: "e7d4cbdc-3087-4a8b-b9b4-bfb27e9243d8",
+                    region: "eu1"
+                });
+            </script> -->
+
+    </div>
+    <div class="step-form-wrapper">
+        <div class="step-form"></div>
+    </div>
+
+    <script src="./dist/bundle.js" ></script>
+   
+
+    <script>
+        const FORM_DATA = [
+    {
+        id:"step_1",
+        title:"Kontakt & Support",
+        description:"",
+        navigation:{
+            next:true,
+            prev:false
+        },
+        next:[
+            { value:["private","business"], next:"step_2" , key:"customer_type" },
+            { value:"new", next:"hs_form" , key:"customer_type" }
+        ],
+        fields:[
+            {
+                id:"customer_type", type:"radio", label:"Customer Type", required:true, value:"",
+                isdepending:true,
+                options:[
+                    {id:"private", label:"Private Customer"},
+                    {id:"business", label:"Business Customer"},
+                    {id:"new", label:"New customer"}
+                ],
+            },
+            {
+                id:"customer_name_private", type:"text", depending:"customer_type", label:"Customer Name", required:true, value:"",
+                dependencies:{
+                    "private":{
+                        type:"text", id:"customer_name_private", label:"Customer Name", required:true, value:"", placeholder:"private Customer Name",
+                        if:{ value:"private" }
+                    },
+                    "business":{
+                        type:"text", id:"customer_name_business", label:"Customer Name", required:true, value:"", placeholder:"business Customer Name",
+                        if:{ value:"business" }
+                    }
+                }
+            }
+        ]
+    },
+    {
+        id:"step_2",
+        title:"Kategorie (Kategorie 1)",
+        description:"",
+        next:[
+            { value:"Technische Störungen", next:"category_1_value_1" , key:"category_1" },
+            { value:"Allgemeine Anfragen / Vertragsänderungen", next:"category_1_value_2" , key:"category_1" }
+        ],
+        fields:[
+            {
+                id:"category_1", type:"radio", label:"Category 1", required:true, value:"",
+                options:[
+                    {id:"Technische Störungen", label:"Technische Störungen"},
+                    {id:"Allgemeine Anfragen / Vertragsänderungen", label:"Allgemeine Anfragen / Vertragsänderungen"},
+                ],
+            },
+        ]
+    },
+    {
+        id:"category_1_value_1",
+        title:"Thema (Kartegorie 2)",
+        description:"Thema (Kartegorie 2) Description",
+        next:[
+            { value:"any", next:"hs_form"}
+        ],
+        fields:[
+            {
+                id:"category_1_value_1_field", type:"radio", label:"Category 1 Value 1", required:true, value:"",
+                isdepending:true,
+                options:[
+                    {id:"Internet", label:"Internet"},
+                    {id:"Telefonie", label:"Telefonie"},
+                    {id:"TV-COAX", label:"TV-COAX"},
+                    {id:"WAIPU-TV", label:"WAIPU-TV"},
+                    {id:"Hardware", label:"Hardware"},
+                    {id:"Intern", label:"Intern"}
+                ],
+            },
+            {
+                id:"category_1_value_1_1", type:"radio", label:"Anliegen (Kategorie 3)", required:true, value:"",
+                depending:"category_1_value_1_field",
+                dependencies:{
+                    "Internet":{
+                        type:"radio", id:"Internet", label:"Internet (Kategorie 3)", required:true, value:"",
+                        options:[
+                            {id:"Ausfall / Zuschaltung", label:"Ausfall / Zuschaltung"},
+                            {id:"Unterbrechungen", label:"Unterbrechungen"},
+                            {id:"Bandbreite", label:"Bandbreite"},
+                        ]
+                    },
+                    "Telefonie":{
+                        type:"radio", id:"Telefonie", label:"Telefonie (Kategorie 3)", required:true, value:"",
+                        options:[
+                            {id:"Ausfall", label:"Ausfall"},
+                            {id:"Eingehende Telefonie gestört", label:"Eingehende Telefonie gestört"},
+                            {id:"Ausgehende Telefonie gestört", label:"Ausgehende Telefonie gestört"},
+                        ]
+                    },
+                    "TV-COAX":{
+                        type:"radio", id:"TV-COAX", label:"TV-COAX (Kategorie 3)", required:true, value:"",
+                        options:[
+                            {id:"Ausfall", label:"Ausfall"},
+                            {id:"Vereinzelte Sender fehlen", label:"Vereinzelte Sender fehlen"},
+                            {id:"Bild- & Tonstörungen auf allen Sendern", label:"Bild- & Tonstörungen auf allen Sendern"},
+                            {id:"Bild- & Tonstörungen auf einigen Sendern", label:"Bild- & Tonstörungen auf einigen Sendern"},
+                            {id:"Endgerätesupport TV-COAX", label:"Endgerätesupport TV-COAX"},
+                            {id:"Sonstiges", label:"Sonstiges"}
+                        ]
+                    },
+                    "WAIPU-TV":{
+                        type:"radio", id:"WAIPU-TV", label:"WAIPU-TV (Kategorie 3)", required:true, value:"",
+                        options:[
+                            {id:"Aktivierungssupport", label:"Aktivierungssupport"},
+                            {id:"Endgerätesupport WAIPU-TV", label:"Endgerätesupport WAIPU-TV"},
+                            {id:"Sonstiges", label:"Sonstiges"}
+                        ]
+                    }
+                },
+            },
+        ]
+    },
+    {
+        id:"category_1_value_2",
+        title:"Thema (Kartegorie 2)",
+        description:"Thema (Kartegorie 2) Description",
+        next:[
+            { value:"any", next:"hs_form"}
+        ],
+        fields:[
+            {
+                id:"category_1_value_2_1", type:"radio", label:"Category 1 Value 2", required:true, value:"",
+                isdepending:true,
+                options:[
+                    {id:"Internet", label:"Internet"},
+                    {id:"Email", label:"Email"},
+                    {id:"TV", label:"TV"},
+                    {id:"Vertragsänderungen", label:"Vertragsänderungen"},
+                    {id:"Hardware", label:"Hardware"},
+                    {id:"Dokumente/Rechnungen", label:"Dokumente/Rechnungen"},
+                    {id:"Intern", label:"Intern"}
+                ],
+            },
+            {
+                id:"category_1_value_2", type:"radio", label:"Anliegen (Kategorie 3)", required:true, value:"",
+                depending:"category_1_value_2_1",
+                dependencies:{
+                    "Internet":{
+                        type:"radio", id:"Internet", label:"Internet (Kategorie 3)", required:true, value:"",
+                        options:[
+                            {id:"Ausfall / Zuschaltung", label:"Ausfall / Zuschaltung 2"},
+                            {id:"Unterbrechungen", label:"Unterbrechungen 2"},
+                            {id:"Bandbreite", label:"Bandbreite 2"},
+                        ]
+                    },
+                    "Telefonie":{
+                        type:"radio", id:"Telefonie", label:"Telefonie (Kategorie 3)", required:true, value:"",
+                        options:[
+                            {id:"Ausfall", label:"Ausfall 2"},
+                            {id:"Eingehende Telefonie gestört", label:"Eingehende Telefonie gestört 2"},
+                            {id:"Ausgehende Telefonie gestört", label:"Ausgehende Telefonie gestört 2"},
+                        ]
+                    },
+                    "TV-COAX":{
+                        type:"radio", id:"TV-COAX", label:"TV-COAX (Kategorie 3)", required:true, value:"",
+                        options:[
+                            {id:"Ausfall", label:"Ausfall 2"},
+                            {id:"Vereinzelte Sender fehlen", label:"Vereinzelte Sender fehlen 2"},
+                            {id:"Bild- & Tonstörungen auf allen Sendern", label:"Bild- & Tonstörungen auf allen Sendern 2"},
+                            {id:"Bild- & Tonstörungen auf einigen Sendern", label:"Bild- & Tonstörungen auf einigen Sendern 2"},
+                            {id:"Endgerätesupport TV-COAX", label:"Endgerätesupport TV-COAX 2"},
+                            {id:"Sonstiges", label:"Sonstiges 2"}
+                        ]
+                    },
+                    "WAIPU-TV":{
+                        type:"radio", id:"WAIPU-TV", label:"WAIPU-TV (Kategorie 3)", required:true, value:"",
+                        options:[
+                            {id:"Aktivierungssupport", label:"Aktivierungssupport 2"},
+                            {id:"Endgerätesupport WAIPU-TV", label:"Endgerätesupport WAIPU-TV 2"},
+                            {id:"Sonstiges", label:"Sonstiges 2"}
+                        ]
+                    }
+                },
+            },
+            
+        ]
+    },
+    {
+        id:"hs_form",
+        title:"HubSpot Form",
+        description:"HubSpot Form Description",
+        fields:"hubspot_form",
+        next:[
+            { value:"any", next:"thank_you"}
+        ],
+        navigation:{
+            next:false,
+            prev:true
+        }
+    },
+    {
+        id:"thank_you",
+        title:"",
+        description:"",
+        fields:"thank_you",
+        navigation:{
+            next:false,
+            prev:false
+        }
+    }
+]
+        const stepForm = new StepForm({
+            data: FORM_DATA,
+            formContainer: document.querySelector('.step-form'),
+            hsFormContainer: document.querySelector('.huspot-form'),
+            thankYouMessageContainer: document.querySelector('.thank-you-message')
+        });
+
+        // form-submit-button on click
+        document.querySelector('.form-submit-button').addEventListener('click', () => {
+            stepForm.thankYou();
+        });
+
+        // form-thank-you event listener
+        document.addEventListener('form-thank-you', (event) => {
+            console.log('form-thank-you', event.detail);
+        });
+    </script>
+</body>
+</html>
