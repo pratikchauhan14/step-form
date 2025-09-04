@@ -132,6 +132,10 @@ export class FormController {
           input.addEventListener("change", () => {
             // console.log("opt", opt , field.id);
             this.formStore.setFieldValue(field.id, opt.id);
+            // If opt.internal_value exists, add it to the store
+            if (opt.internal_value) {
+              this.formStore.addInternalValue(opt.internal_value);
+            }
             // console.log("field.depending", field.isdepending);
             if (field.isdepending) {
               // console.log("depending", depending);
@@ -229,6 +233,10 @@ export class FormController {
           input.checked = this.formStoreValue.values[depDef.id] === opt.id;
           input.addEventListener("change", () => {
             this.formStore.setFieldValue(depDef.id, opt.id);
+            // If opt.internal_value exists, add it to the store
+            if (opt.internal_value) {
+              this.formStore.addInternalValue(opt.internal_value);
+            }
           });
           const optLabel = this.div({ tag: "span", innerHTML: opt.label });
           optionWrapper.appendChild(input);
@@ -260,8 +268,8 @@ export class FormController {
     const nextButton = div.querySelector("#next-button");
     const prevButton = div.querySelector("#prev-button");
     const prevButtonBlank = div.querySelector("#prev-button-blank");
-    
-    
+
+
     if (prevButtonBlank) {
       prevButtonBlank.remove();
     }
@@ -287,16 +295,16 @@ export class FormController {
 
     this.formContainer.appendChild(div);
     // Immediately check if the step is already valid and update Next button state
-if (this.currentStep) {
-  const canProceed = this.canProceedStep(this.currentStep);
-  if (canProceed) {
-    this.nextButton.disabled = false;
-    this.nextButton.classList.remove("disabled");
-  } else {
-    this.nextButton.disabled = true;
-    this.nextButton.classList.add("disabled");
-  }
-}
+    if (this.currentStep) {
+      const canProceed = this.canProceedStep(this.currentStep);
+      if (canProceed) {
+        this.nextButton.disabled = false;
+        this.nextButton.classList.remove("disabled");
+      } else {
+        this.nextButton.disabled = true;
+        this.nextButton.classList.add("disabled");
+      }
+    }
 
     this.nextButton.addEventListener("click", () => {
       if (!this.currentStep || !this.currentStep.next) return;
@@ -550,12 +558,12 @@ if (this.currentStep) {
     return div;
   }
 
-   /**
-     * Checks if all required fields and required dependencies in the given step are filled.
-     * Does NOT render any errors.
-     * Returns true if the step can proceed, false otherwise.
-     */
-   canProceedStep(step) {
+  /**
+    * Checks if all required fields and required dependencies in the given step are filled.
+    * Does NOT render any errors.
+    * Returns true if the step can proceed, false otherwise.
+    */
+  canProceedStep(step) {
     // Always fetch the latest store values at the start
     this.formStoreValue = this.formStore.store.get();
     const values = this.formStoreValue.values;

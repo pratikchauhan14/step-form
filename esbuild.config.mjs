@@ -1,5 +1,6 @@
 // esbuild.config.mjs
 import esbuild from "esbuild";
+import { copyFileSync } from "fs";
 
 const isWatch = process.argv.includes("--watch");
 
@@ -10,6 +11,16 @@ const config = {
   minify: false,
   logLevel: "error",
   drop: ["console"], // 🔥 removes all console.* calls
+  plugins: [
+    {
+      name: "copy-index-html",
+      setup(build) {
+        build.onEnd(() => {
+          copyFileSync("index.html", "dist/index.html");
+        });
+      },
+    },
+  ],
 };
 
 if (isWatch) {

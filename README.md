@@ -73,96 +73,182 @@ Each field object can have:
 
 ```json
 [
-  {
-    "id": "step1",
-    "title": "Personal Information",
-    "description": "Please provide your details",
-    "navigation": { "next": true, "prev": false },
-    "fields": [
-      {
-        "id": "name",
-        "type": "text",
-        "label": "Full Name",
-        "required": true
-      },
-      {
-        "id": "contact_method",
-        "type": "radio",
-        "label": "Preferred Contact Method",
-        "options": [
-          { "label": "Email", "value": "email" },
-          { "label": "Phone", "value": "phone" }
+    {
+        id:"step_1",
+        title:"Contact & Support",
+        description:"",
+        navigation:{
+            next:true,
+            prev:false
+        },
+        next:[
+            { value:["private","business"], next:"step_2" , key:"customer_type" },
+            { value:"new", next:"hs_form" , key:"customer_type" }
         ],
-        "required": true,
-        "next": [
-          { "key": "contact_method", "value": "email", "next": "step2_email" },
-          { "key": "contact_method", "value": "phone", "next": "step2_phone" }
+        fields:[
+            {
+                id:"customer_type", type:"radio", label:"Customer Type", required:true, value:"",
+                isdepending:true,
+                options:[
+                    {id:"private", label:"Private Customer"},
+                    {id:"business", label:"Business Customer"},
+                    {id:"new", label:"New Customer"}
+                ],
+            },
+            {
+                id:"customer_name_private", type:"text", depending:"customer_type", label:"Customer Name", required:true, value:"",
+                dependencies:{
+                    "private":{
+                        type:"text", id:"customer_name_private", label:"Customer Name", required:true, value:"", placeholder:"Private Customer Name",
+                        if:{ value:"private" }
+                    },
+                    "business":{
+                        type:"text", id:"customer_name_business", label:"Customer Name", required:true, value:"", placeholder:"Business Customer Name",
+                        if:{ value:"business" }
+                    }
+                }
+            }
         ]
-      }
-    ]
-  },
-  {
-    "id": "step2_email",
-    "title": "Email Details",
-    "description": "Enter your email address",
-    "navigation": { "next": true, "prev": true },
-    "fields": [
-      {
-        "id": "email",
-        "type": "text",
-        "label": "Email Address",
-        "required": true
-      }
-    ]
-  },
-  {
-    "id": "step2_phone",
-    "title": "Phone Details",
-    "description": "Enter your phone number",
-    "navigation": { "next": true, "prev": true },
-    "fields": [
-      {
-        "id": "phone",
-        "type": "text",
-        "label": "Phone Number",
-        "required": true
-      }
-    ]
-  },
-  {
-    "id": "step3",
-    "title": "Additional Information",
-    "description": "Tell us more about yourself",
-    "navigation": { "next": true, "prev": true },
-    "fields": [
-      {
-        "id": "newsletter",
-        "type": "radio",
-        "label": "Subscribe to newsletter?",
-        "options": [
-          { "label": "Yes", "value": "yes" },
-          { "label": "No", "value": "no" }
+    },
+    {
+        id:"step_2",
+        title:"Category (Level 1)",
+        description:"",
+        next:[
+            { value:"Technical Issues", next:"step_3" , key:"category_1" },
+            { value:"General Inquiries / Contract Changes", next:"step_4" , key:"category_1" }
         ],
-        "required": true,
-        "depending": true,
-        "dependencies": { "contact_method": "email" }
-      }
-    ]
-  },
-  {
-    "id": "step4",
-    "title": "HubSpot Integration",
-    "description": "Please fill out the HubSpot form below",
-    "navigation": { "next": false, "prev": true },
-    "fields": ["hubspot_form"]
-  },
-  {
-    "id": "thank_you",
-    "title": "Thank You!",
-    "description": "Your submission has been received.",
-    "navigation": { "next": false, "prev": false },
-    "fields": ["thank_you"]
-  }
+        fields:[
+            {
+                id:"category_1", type:"radio", label:"Category 1", required:true, value:"",
+                options:[
+                    {id:"Technical Issues", label:"Technical Issues"},
+                    {id:"General Inquiries / Contract Changes", label:"General Inquiries / Contract Changes"},
+                ],
+            },
+        ]
+    },
+    {
+        id:"step_3",
+        title:"Select Location",
+        description:"Choose your country and state",
+        next:[
+            { value:"any", next:"hs_form"}
+        ],
+        fields:[
+            {
+                id:"country", type:"radio", label:"Country", required:true, value:"",
+                isdepending:true,
+                options:[
+                    {id:"usa", label:"United States"},
+                    {id:"india", label:"India"}
+                ],
+            },
+            {
+                id:"state", type:"radio", label:"State", required:true, value:"",
+                depending:"country",
+                dependencies:{
+                    "usa":{
+                        type:"radio", id:"usa_states", label:"Select State (USA)", required:true, value:"",
+                        options:[
+                            {id:"california", label:"California", internal_value:"USA > California"},
+                            {id:"new_york", label:"New York", internal_value:"USA > New York"},
+                            {id:"texas", label:"Texas", internal_value:"USA > Texas"}
+                        ]
+                    },
+                    "india":{
+                        type:"radio", id:"india_states", label:"Select State (India)", required:true, value:"",
+                        options:[
+                            {id:"maharashtra", label:"Maharashtra", internal_value:"India > Maharashtra"},
+                            {id:"karnataka", label:"Karnataka", internal_value:"India > Karnataka"},
+                            {id:"delhi", label:"Delhi", internal_value:"India > Delhi"}
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    {
+        id:"step_4",
+        title:"Topic (Level 2)",
+        description:"Topic (Level 2) Description",
+        next:[
+            { value:"any", next:"hs_form"}
+        ],
+        fields:[
+            {
+                id:"topic_category", type:"radio", label:"Choose a Topic", required:true, value:"",
+                isdepending:true,
+                options:[
+                    {id:"billing", label:"Billing"},
+                    {id:"technical", label:"Technical"},
+                    {id:"account", label:"Account"},
+                    {id:"general", label:"General"}
+                ],
+            },
+            {
+                id:"topic_detail", type:"radio", label:"Topic Details", required:true, value:"",
+                depending:"topic_category",
+                dependencies:{
+                    "billing":{
+                        type:"radio", id:"billing_details", label:"Billing Details", required:true, value:"",
+                        options:[
+                            {id:"invoice", label:"Invoice Issue", internal_value:"Billing > Invoice Issue"},
+                            {id:"refund", label:"Refund Request", internal_value:"Billing > Refund Request"},
+                            {id:"other", label:"Other Billing Issue", internal_value:"Billing > Other"}
+                        ]
+                    },
+                    "technical":{
+                        type:"radio", id:"technical_details", label:"Technical Details", required:true, value:"",
+                        options:[
+                            {id:"login", label:"Login Issue", internal_value:"Technical > Login Issue"},
+                            {id:"performance", label:"Performance Issue", internal_value:"Technical > Performance Issue"},
+                            {id:"bug", label:"Bug Report", internal_value:"Technical > Bug Report"}
+                        ]
+                    },
+                    "account":{
+                        type:"radio", id:"account_details", label:"Account Details", required:true, value:"",
+                        options:[
+                            {id:"update", label:"Update Information", internal_value:"Account > Update Information"},
+                            {id:"close", label:"Close Account", internal_value:"Account > Close Account"},
+                            {id:"security", label:"Security Concern", internal_value:"Account > Security Concern"}
+                        ]
+                    },
+                    "general":{
+                        type:"radio", id:"general_details", label:"General Inquiry", required:true, value:"",
+                        options:[
+                            {id:"feedback", label:"Feedback", internal_value:"General > Feedback"},
+                            {id:"support", label:"Support Question", internal_value:"General > Support Question"},
+                            {id:"other", label:"Other Inquiry", internal_value:"General > Other"}
+                        ]
+                    }
+                },
+            },
+        ]
+    },
+    {
+        id:"hs_form",
+        title:"HubSpot Form",
+        description:"HubSpot Form Description",
+        fields:"hubspot_form",
+        next:[
+            { value:"any", next:"thank_you"}
+        ],
+        navigation:{
+            next:false,
+            prev:true
+        }
+    },
+    {
+        id:"thank_you",
+        title:"",
+        description:"",
+        fields:"thank_you",
+        navigation:{
+            next:false,
+            prev:false
+        }
+    }
 ]
 ```
 
@@ -259,3 +345,13 @@ The progress bar reflects the user's progress through the form steps:
 ---
 
 This guide provides a comprehensive overview to get started with the Step-Form project, customize it, and extend it to fit your specific needs.
+
+---
+
+## Contact & Collaboration
+
+**Developer Name:** Pratik Chauhan  
+**Website:** https://2cube.studio/  
+**Email:** pratik@2cube.studio
+
+If you have any questions, encounter issues, or have ideas for collaboration, please don't hesitate to reach out. Your feedback and contributions are always welcome!

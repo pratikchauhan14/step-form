@@ -41,8 +41,8 @@ export const FORM_DATA = [
         title:"Kategorie (Kategorie 1)",
         description:"",
         next:[
-            { value:"Technische Störungen", next:"category_1_value_1" , key:"category_1" },
-            { value:"Allgemeine Anfragen / Vertragsänderungen", next:"category_1_value_2" , key:"category_1" }
+            { value:"Technische Störungen", next:"step_3" , key:"category_1" },
+            { value:"Allgemeine Anfragen / Vertragsänderungen", next:"step_4" , key:"category_1" }
         ],
         fields:[
             {
@@ -55,7 +55,7 @@ export const FORM_DATA = [
         ]
     },
     {
-        id:"category_1_value_1",
+        id:"step_3",
         title:"Thema (Kartegorie 2)",
         description:"Thema (Kartegorie 2) Description",
         next:[
@@ -69,9 +69,7 @@ export const FORM_DATA = [
                     {id:"Internet", label:"Internet"},
                     {id:"Telefonie", label:"Telefonie"},
                     {id:"TV-COAX", label:"TV-COAX"},
-                    {id:"WAIPU-TV", label:"WAIPU-TV"},
-                    {id:"Hardware", label:"Hardware"},
-                    {id:"Intern", label:"Intern"}
+                    {id:"WAIPU-TV", label:"WAIPU-TV"}
                 ],
             },
             {
@@ -81,36 +79,35 @@ export const FORM_DATA = [
                     "Internet":{
                         type:"radio", id:"Internet", label:"Internet (Kategorie 3)", required:true, value:"",
                         options:[
-                            {id:"Ausfall / Zuschaltung", label:"Ausfall / Zuschaltung"},
-                            {id:"Unterbrechungen", label:"Unterbrechungen"},
-                            {id:"Bandbreite", label:"Bandbreite"},
+                            {id:"Ausfall / Zuschaltung", label:"Ausfall / Zuschaltung" , internal_value:"TS > Internet > Ausfall / Zuschaltung"},
+                            {id:"Unterbrechungen", label:"Unterbrechungen" , internal_value:"TS > Internet > Unterbrechungen"},
+                            {id:"Bandbreite", label:"Bandbreite" , internal_value:"TS > Internet > Bandbreite"},
                         ]
                     },
                     "Telefonie":{
                         type:"radio", id:"Telefonie", label:"Telefonie (Kategorie 3)", required:true, value:"",
                         options:[
-                            {id:"Ausfall", label:"Ausfall"},
-                            {id:"Eingehende Telefonie gestört", label:"Eingehende Telefonie gestört"},
-                            {id:"Ausgehende Telefonie gestört", label:"Ausgehende Telefonie gestört"},
+                            {id:"Ausfall", label:"Ausfall" , internal_value:"TS > Telefonie > Ausfall"},
+                            {id:"Eingehende Telefonie gestört", label:"Eingehende Telefonie gestört" , internal_value:"TS > Telefonie > Eingehende Telefonie gestört"},
+                            {id:"Ausgehende Telefonie gestört", label:"Ausgehende Telefonie gestört" , internal_value:"TS > Telefonie > Ausgehende Telefonie gestört"},
                         ]
                     },
                     "TV-COAX":{
                         type:"radio", id:"TV-COAX", label:"TV-COAX (Kategorie 3)", required:true, value:"",
                         options:[
-                            {id:"Ausfall", label:"Ausfall"},
-                            {id:"Vereinzelte Sender fehlen", label:"Vereinzelte Sender fehlen"},
-                            {id:"Bild- & Tonstörungen auf allen Sendern", label:"Bild- & Tonstörungen auf allen Sendern"},
-                            {id:"Bild- & Tonstörungen auf einigen Sendern", label:"Bild- & Tonstörungen auf einigen Sendern"},
-                            {id:"Endgerätesupport TV-COAX", label:"Endgerätesupport TV-COAX"},
-                            {id:"Sonstiges", label:"Sonstiges"}
+                            {id:"Ausfall", label:"Ausfall" , internal_value:"TS > TV-COAX > Ausfall"},
+                            {id:"Vereinzelte Sender fehlen", label:"Vereinzelte Sender fehlen" , internal_value:"TS > TV-COAX > Vereinzelte Sender fehlen"},
+                            {id:"Bild- & Tonstörungen auf allen Sendern", label:"Bild- & Tonstörungen auf allen Sendern" , internal_value:"TS > TV-COAX > Bild- & Tonstörungen auf allen Sendern"},
+                            {id:"Endgerätesupport TV-COAX", label:"Endgerätesupport TV-COAX" , internal_value:"TS > TV-COAX > Endgerätesupport TV-COAX"},
+                            {id:"Sonstiges", label:"Sonstiges" , internal_value:"TS > TV-COAX > Sonstiges"}
                         ]
                     },
                     "WAIPU-TV":{
                         type:"radio", id:"WAIPU-TV", label:"WAIPU-TV (Kategorie 3)", required:true, value:"",
                         options:[
-                            {id:"Aktivierungssupport", label:"Aktivierungssupport"},
-                            {id:"Endgerätesupport WAIPU-TV", label:"Endgerätesupport WAIPU-TV"},
-                            {id:"Sonstiges", label:"Sonstiges"}
+                            {id:"Aktivierungssupport", label:"Aktivierungssupport" , internal_value:"TS > WAIPU-TV > Aktivierungssupport"},
+                            {id:"Endgerätesupport WAIPU-TV", label:"Endgerätesupport WAIPU-TV" , internal_value:"TS > WAIPU-TV > Endgerätesupport WAIPU-TV"},
+                            {id:"Sonstiges", label:"Sonstiges" , internal_value:"TS > WAIPU-TV > Sonstiges"}
                         ]
                     }
                 },
@@ -118,7 +115,7 @@ export const FORM_DATA = [
         ]
     },
     {
-        id:"category_1_value_2",
+        id:"step_4",
         title:"Thema (Kartegorie 2)",
         description:"Thema (Kartegorie 2) Description",
         next:[
@@ -132,10 +129,7 @@ export const FORM_DATA = [
                     {id:"Internet", label:"Internet"},
                     {id:"Email", label:"Email"},
                     {id:"TV", label:"TV"},
-                    {id:"Vertragsänderungen", label:"Vertragsänderungen"},
-                    {id:"Hardware", label:"Hardware"},
-                    {id:"Dokumente/Rechnungen", label:"Dokumente/Rechnungen"},
-                    {id:"Intern", label:"Intern"}
+                    {id:"Vertragsänderungen", label:"Vertragsänderungen"}
                 ],
             },
             {
@@ -145,36 +139,36 @@ export const FORM_DATA = [
                     "Internet":{
                         type:"radio", id:"Internet", label:"Internet (Kategorie 3)", required:true, value:"",
                         options:[
-                            {id:"Ausfall / Zuschaltung", label:"Ausfall / Zuschaltung 2"},
-                            {id:"Unterbrechungen", label:"Unterbrechungen 2"},
-                            {id:"Bandbreite", label:"Bandbreite 2"},
+                            {id:"Ausfall / Zuschaltung", label:"Ausfall / Zuschaltung 2", internal_value:"EA > Internet > Ausfall / Zuschaltung"},
+                            {id:"Unterbrechungen", label:"Unterbrechungen 2", internal_value:"EA > Internet > Unterbrechungen"},
+                            {id:"Bandbreite", label:"Bandbreite 2", internal_value:"EA > Internet > Bandbreite"},
                         ]
                     },
-                    "Telefonie":{
-                        type:"radio", id:"Telefonie", label:"Telefonie (Kategorie 3)", required:true, value:"",
+                    "Email":{
+                        type:"radio", id:"Email", label:"Email (Kategorie 3)", required:true, value:"",
                         options:[
-                            {id:"Ausfall", label:"Ausfall 2"},
-                            {id:"Eingehende Telefonie gestört", label:"Eingehende Telefonie gestört 2"},
-                            {id:"Ausgehende Telefonie gestört", label:"Ausgehende Telefonie gestört 2"},
+                            {id:"Ausfall", label:"Ausfall 2", internal_value:"EA > Email > Ausfall"},
+                            {id:"Eingehende Telefonie gestört", label:"Eingehende Telefonie gestört 2", internal_value:"EA > Email > Eingehende Telefonie gestört"},
+                            {id:"Ausgehende Telefonie gestört", label:"Ausgehende Telefonie gestört 2", internal_value:"EA > Email > Ausgehende Telefonie gestört"},
                         ]
                     },
-                    "TV-COAX":{
-                        type:"radio", id:"TV-COAX", label:"TV-COAX (Kategorie 3)", required:true, value:"",
+                    "TV":{
+                        type:"radio", id:"TV", label:"TV-COAX (Kategorie 3)", required:true, value:"",
                         options:[
-                            {id:"Ausfall", label:"Ausfall 2"},
-                            {id:"Vereinzelte Sender fehlen", label:"Vereinzelte Sender fehlen 2"},
-                            {id:"Bild- & Tonstörungen auf allen Sendern", label:"Bild- & Tonstörungen auf allen Sendern 2"},
-                            {id:"Bild- & Tonstörungen auf einigen Sendern", label:"Bild- & Tonstörungen auf einigen Sendern 2"},
-                            {id:"Endgerätesupport TV-COAX", label:"Endgerätesupport TV-COAX 2"},
-                            {id:"Sonstiges", label:"Sonstiges 2"}
+                            {id:"Ausfall", label:"Ausfall 2", internal_value:"EA > TV > Ausfall"},
+                            {id:"Vereinzelte Sender fehlen", label:"Vereinzelte Sender fehlen 2", internal_value:"EA > TV > Vereinzelte Sender fehlen"},
+                            {id:"Bild- & Tonstörungen auf allen Sendern", label:"Bild- & Tonstörungen auf allen Sendern 2", internal_value:"EA > TV > Bild- & Tonstörungen auf allen Sendern"},
+                            {id:"Bild- & Tonstörungen auf einigen Sendern", label:"Bild- & Tonstörungen auf einigen Sendern 2", internal_value:"EA > TV > Bild- & Tonstörungen auf einigen Sendern"},
+                            {id:"Endgerätesupport TV-COAX", label:"Endgerätesupport TV-COAX 2", internal_value:"EA > TV > Endgerätesupport TV-COAX"},
+                            {id:"Sonstiges", label:"Sonstiges 2", internal_value:"EA > TV > Sonstiges"}
                         ]
                     },
-                    "WAIPU-TV":{
+                    "Vertragsänderungen":{
                         type:"radio", id:"WAIPU-TV", label:"WAIPU-TV (Kategorie 3)", required:true, value:"",
                         options:[
-                            {id:"Aktivierungssupport", label:"Aktivierungssupport 2"},
-                            {id:"Endgerätesupport WAIPU-TV", label:"Endgerätesupport WAIPU-TV 2"},
-                            {id:"Sonstiges", label:"Sonstiges 2"}
+                            {id:"Aktivierungssupport", label:"Aktivierungssupport 2", internal_value:"EA > Vertragsänderungen > Aktivierungssupport"},
+                            {id:"Endgerätesupport WAIPU-TV", label:"Endgerätesupport WAIPU-TV 2", internal_value:"EA > Vertragsänderungen > Endgerätesupport WAIPU-TV"},
+                            {id:"Sonstiges", label:"Sonstiges 2", internal_value:"EA > Vertragsänderungen > Sonstiges"}
                         ]
                     }
                 },
@@ -190,11 +184,15 @@ export const FORM_DATA = [
         next:[
             { value:"any", next:"thank_you"}
         ],
+        navigation:{
+            next:false,
+            prev:true
+        }
     },
     {
         id:"thank_you",
-        title:"Thank You",
-        description:"Thank You Description",
+        title:"",
+        description:"",
         fields:"thank_you",
         navigation:{
             next:false,
@@ -202,5 +200,3 @@ export const FORM_DATA = [
         }
     }
 ]
-
-window.FORM_DATA = FORM_DATA;

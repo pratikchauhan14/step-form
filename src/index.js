@@ -5,7 +5,7 @@ import { ProgressBar } from "./progressBar.js";
 
 class StepForm {
     constructor({ data, formContainer, hsFormContainer, thankYouMessageContainer }) {
-        this.data = data;
+        this.data = data; 
         this.stepForm = formContainer;
         this.hsForm = hsFormContainer;
         this.thankYouMessage = thankYouMessageContainer;

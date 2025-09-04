@@ -1,3 +1,5 @@
 # gitignore file
 node_modules
-dist
+form_script.js
+index2.html
+read-index.html

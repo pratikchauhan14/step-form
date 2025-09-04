@@ -16,13 +16,24 @@ export class FormStore {
     this.store.listen(() => {})
   }
 
+  addInternalValue(value){
+    this.store.set({
+      ...this.store.get(),
+      internal_values: value,
+    })
+  }
+
   // Build initial state from FORM_DATA
   _buildInitialState() {
     const state = { 
       currentStep: this.FORM_DATA[0].id, 
-      values: {}, chain: [this.FORM_DATA[0].id],
+      values: {}, 
+      internal_values:"",
+      chain: [this.FORM_DATA[0].id],
       flow: this._buildFlow()
     }
+
+    
   
     const collectFields = (fields) => {
       fields.forEach(field => {
