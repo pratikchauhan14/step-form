@@ -1,14 +1,17 @@
 {
   "type": "module",
+  "homepage": "https://pratikchauhan14.github.io/step-form/",
   "dependencies": {
     "@nanostores/persistent": "^1.1.0",
     "nanostores": "^1.0.1"
   },
   "devDependencies": {
-    "esbuild": "^0.23.0"
+    "esbuild": "^0.23.0",
+    "gh-pages": "^6.3.0"
   },
   "scripts": {
     "build": "node esbuild.config.mjs",
-    "watch": "node esbuild.config.mjs --watch"
+    "watch": "node esbuild.config.mjs --watch",
+    "deploy": "npm run build && gh-pages -d dist"
   }
 }
