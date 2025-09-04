@@ -69,7 +69,7 @@ Each field object can have:
 
 ---
 
-### Full Dummy Example Schema
+### Full Example Schema
 
 ```json
 [
@@ -212,6 +212,28 @@ initializeForm();
 ```
 
 This example assumes you have a `renderStepForm` function that takes the schema, renders the steps inside the container with ID `form-container`, and handles submission.
+
+---
+
+## Handling the Thank You Step
+
+To navigate to the thank you step programmatically, call the `thankYou` method on your form instance:
+
+```js
+stepForm.thankYou();
+```
+
+You can listen for the `form-thank-you` event to perform actions when the thank you step is reached. The event is dispatched on the `document` and contains the submitted form values in `event.detail`:
+
+```js
+document.addEventListener('form-thank-you', (event) => {
+  const submittedValues = event.detail;
+  console.log('Form submitted values:', submittedValues);
+  // Perform any additional actions here
+});
+```
+
+This allows you to handle post-submission logic, such as analytics tracking or UI updates, when the form reaches the thank you step.
 
 ---
 
