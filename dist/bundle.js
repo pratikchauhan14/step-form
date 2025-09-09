@@ -7,6 +7,7 @@
       this.formContainer = options.stepForm;
       this.formStoreValue = this.formStore.store.get();
       this.currentStep = this.formStore.getCurrentStep();
+      this.navigation = options.navigation;
       this.hsForm = options.hsForm;
       this.thankYouMessage = options.thankYouMessage;
       this.isNext = true;
@@ -55,6 +56,12 @@
       const prevErrors = this.formContainer.querySelectorAll(".validation-error");
       prevErrors.forEach((err) => err.remove());
       const typeOfField = typeof this.currentStep.fields;
+      if (this.currentStep.id == "hs_form") {
+        setTimeout(() => {
+          const event = new CustomEvent("form-thank-you", { detail: this.formStore.store.get() });
+          document.dispatchEvent(event);
+        }, 100);
+      }
       if (typeOfField === "string" && this.currentStep.fields === "hubspot_form") {
         this.hsForm.style.display = "block";
         stepWrapper.appendChild(this.hsForm);
@@ -198,10 +205,10 @@
       if (prevButton) {
         prevButton.remove();
       }
-      this.nextButton = this.div({ tag: "button", className: "next-button", id: "next-button", innerHTML: "Next" });
+      this.nextButton = this.div({ tag: "button", className: "next-button", id: "next-button", innerHTML: this.navigation.next });
       this.nextButton.disabled = true;
       this.nextButton.classList.add("disabled");
-      this.prevButton = this.div({ tag: "button", className: "prev-button", id: "prev-button", innerHTML: "Previous" });
+      this.prevButton = this.div({ tag: "button", className: "prev-button", id: "prev-button", innerHTML: this.navigation.prev });
       this.prevButtonBlank = this.div({ tag: "div", id: "prev-button-blank" });
       this.isPrevious && div.appendChild(this.prevButton);
       !this.isPrevious && div.appendChild(this.prevButtonBlank);
@@ -1029,8 +1036,9 @@
 
   // src/index.js
   var StepForm = class {
-    constructor({ data, formContainer, hsFormContainer, thankYouMessageContainer }) {
+    constructor({ data, navigation, formContainer, hsFormContainer, thankYouMessageContainer }) {
       this.data = data;
+      this.navigation = navigation || { next: "Next Step", prev: "Previous Step" };
       this.stepForm = formContainer;
       this.hsForm = hsFormContainer;
       this.thankYouMessage = thankYouMessageContainer;

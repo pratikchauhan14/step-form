@@ -10,7 +10,7 @@ const config = {
   outfile: "dist/bundle.js",
   minify: false,
   logLevel: "error",
-  drop: ["console"], // 🔥 removes all console.* calls
+  drop: ["console"], 
   plugins: [
     {
       name: "copy-index-html",

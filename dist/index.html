@@ -242,6 +242,9 @@
                 <input type="text" placeholder="Name">
                 <input type="email" placeholder="Email">
                 <input type="tel" placeholder="Phone">
+                <input type="hidden" name="TICKET.hs_ticket_category" value="">
+                <input type="text" name="TICKET.customer_name" value="">
+
             </div>
             <button type="submit" id="prev-button-custom">Submit</button>
         </form>
@@ -253,7 +256,7 @@
         <div class="step-form"></div>
     </div>
 
-    <script src="./bundle.js"></script>
+    <script src="./dist/bundle.js"></script>
 
     <script>
 
@@ -443,6 +446,10 @@
 
         const stepForm = new StepForm({
             data: FORM_DATA,
+            navigation:{
+                next:"Next Step",
+                prev:"Previous Step"
+            },
             formContainer: document.querySelector('.step-form'),
             hsFormContainer: document.querySelector('.huspot-form'),
             thankYouMessageContainer: document.querySelector('.thank-you-message')
@@ -454,14 +461,34 @@
         // });
 
         //form submit
+        let internal_values = '';
         document.querySelector('.huspot-form').addEventListener('submit', (event) => {
             event.preventDefault();
             stepForm.thankYou();
+            console.log({internal_values});
         });
 
         // form-thank-you event listener
         document.addEventListener('form-thank-you', (event) => {
             console.log('form-thank-you', event.detail);
+            internal_values = event.detail.internal_values;
+            console.log({internal_values});
+
+            console.log(event.detail.values);
+
+            const customer_type = event.detail.values.customer_type;
+            let customer_name = '';
+
+            if (customer_type == "private") {
+                customer_name = event.detail.values.customer_name_private;
+            } else if (customer_type == "business") {
+                customer_name = event.detail.values.customer_name_business;
+            }
+
+            console.log({customer_type,customer_name});
+
+            // TICKET.customer_name
+            document.querySelector('.huspot-form').querySelector('input[name="TICKET.hs_ticket_category"]').value = internal_values;
         });
     </script>
 </body>

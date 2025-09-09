@@ -5,6 +5,8 @@ export class FormController {
     this.formContainer = options.stepForm;
     this.formStoreValue = this.formStore.store.get();
     this.currentStep = this.formStore.getCurrentStep();
+    this.navigation = options.navigation;
+    console.log(this.navigation);
 
     this.hsForm = options.hsForm;
     this.thankYouMessage = options.thankYouMessage;
@@ -13,6 +15,7 @@ export class FormController {
     this.isPrevious = true;
 
 
+    
 
 
     this.renderFields();
@@ -82,6 +85,15 @@ export class FormController {
     prevErrors.forEach(err => err.remove());
 
     const typeOfField = typeof this.currentStep.fields;
+
+
+    console.log(this.currentStep.id);
+    if(this.currentStep.id == "hs_form") {
+      setTimeout(() => {
+        const event = new CustomEvent("form-thank-you", { detail: this.formStore.store.get() });
+        document.dispatchEvent(event);
+      }, 100);
+    }
 
     // hs_form
     if (typeOfField === "string" && this.currentStep.fields === "hubspot_form") {
@@ -168,6 +180,8 @@ export class FormController {
         this.renderDependency(this.currentStep.id, selectedValue, field.depending);
       }
     });
+
+    
   }
 
   // --- Refactored: render dependency field(s) for the selected value in current step ---
@@ -281,11 +295,11 @@ export class FormController {
     }
 
 
-    this.nextButton = this.div({ tag: "button", className: "next-button", id: "next-button", innerHTML: "Next" });
+    this.nextButton = this.div({ tag: "button", className: "next-button", id: "next-button", innerHTML: this.navigation.next });
     // default: disabled until store/subscriber says otherwise
     this.nextButton.disabled = true;
     this.nextButton.classList.add("disabled");
-    this.prevButton = this.div({ tag: "button", className: "prev-button", id: "prev-button", innerHTML: "Previous" });
+    this.prevButton = this.div({ tag: "button", className: "prev-button", id: "prev-button", innerHTML: this.navigation.prev });
     this.prevButtonBlank = this.div({ tag: "div", id: "prev-button-blank" });
 
 

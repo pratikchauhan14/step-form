@@ -4,8 +4,9 @@ import { FormStore } from "./formStore.js";
 import { ProgressBar } from "./progressBar.js";
 
 class StepForm {
-    constructor({ data, formContainer, hsFormContainer, thankYouMessageContainer }) {
+    constructor({ data, navigation, formContainer, hsFormContainer, thankYouMessageContainer }) {
         this.data = data; 
+        this.navigation = navigation || {next:"Next Step", prev:"Previous Step"};
         this.stepForm = formContainer;
         this.hsForm = hsFormContainer;
         this.thankYouMessage = thankYouMessageContainer;
